@@ -1,17 +1,32 @@
-import { createStore } from "redux";
-import testReducer from "./reducers/reducer";
+import {createStore, compose, combineReducers, applyMiddleware} from 'redux';
+import createReducer from './reducers/base';
+import {syncHistory} from 'react-router-redux'
+import {appHistory} from './history_config';
 
-let store = createStore(testReducer);
 
-export default function() {
+const reducer = createReducer();
 
-	if(module.hot) {
-	  module.hot.accept('./reducers/reducer.js', () => {
-	  	console.log("store.js HMR");
-	    const newReducer = require('./reducers/reducer.js').default;
-	    store.replaceReducer(newReducer);
-	  });
-	}	
+let storeBuilder = null;
 
-	return store;
+const reduxRouterMiddleware = syncHistory(appHistory);
+
+storeBuilder = (
+	applyMiddleware(
+		reduxRouterMiddleware,
+	)
+)(createStore);
+
+
+export function configureStore() {
+
+    const store = storeBuilder(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+    if(module.hot) {
+        module.hot.accept('./reducers', () => {
+            const createReducer = require('./reducers').default;
+            store.replaceReducer(createReducer());
+        });
+    }
+    return store;
 }
+
+export const store = configureStore();

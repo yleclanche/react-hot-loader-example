@@ -8,16 +8,15 @@ var hotMiddleware = require('webpack-hot-middleware');
 var compiler = webpack(webpackConfig);
 
 var host = '0.0.0.0';
-var port = 8080;
+var port = 3000;
 var hot = true;
 
 var serverOptions = {
-  contentBase: 'dist/',
   publicPath: webpackConfig.output.publicPath,
   historyApiFallback: true,
   headers: {'Access-Control-Allow-Origin': '*'},
   stats: {colors: true},
-  noInfo: hot,
+  noInfo: true,
   inline:true,
   lazy:false,
 };
@@ -27,13 +26,12 @@ var app = new Express();
 
 app.use(devMiddleware(compiler, serverOptions));
 
-if(hot) {
-  app.use(hotMiddleware(compiler));
-}
+app.use(hotMiddleware(compiler));
 
 
-app.get('*', function (req, res) {
-  res.sendFile(path.join(__dirname, '../index.html'));
+
+app.get('/', function (req, res) {
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 //
 // app.use(require('webpack-dev-middleware')(compiler, serverOptions));

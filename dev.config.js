@@ -4,24 +4,22 @@ require('babel-polyfill');
 var fs = require('fs');
 var path = require('path');
 var webpack = require('webpack');
-require('react-hot-loader/patch');
 
 var assetsPath = path.resolve(__dirname, './dist');
 
 module.exports = {
     devtool: 'eval-cheap-module-source-map',
-    context: path.resolve(__dirname, '..'),
-    entry: {'bundle':[
+    entry: {bundle:[
         'react-hot-loader/patch',
-        'webpack-hot-middleware/client?reload=true&path=http://localhost:8080/__webpack_hmr',
+        'webpack-hot-middleware/client?reload=true&path=http://localhost:3000/__webpack_hmr',
         './src/index.js'
     ]},
     output: {
         libraryTarget: 'var',
         library: '[name]',
         path: assetsPath,
-        filename: 'bundle.js',
-        chunkFilename: 'bundle.js',
+        filename: '[name].js',
+        chunkFilename: '[name].js',
         publicPath: '/assets/'
     },
     module: {

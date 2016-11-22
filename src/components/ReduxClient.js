@@ -40,7 +40,7 @@ class ReduxClient extends React.Component {
 
 export default connect((state) => {
 	return {
-		items: state.items
+		items: state.reducer.items
 	}
 }, (dispatch) => {
 	return {

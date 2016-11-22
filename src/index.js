@@ -1,15 +1,22 @@
-import React from "react";
-import { render } from "react-dom";
-import App from "./components/App";
+/**
+ * THIS IS THE ENTRY POINT
+ */
+import React, {Component, PropTypes} from 'react';
+import ReactDOM from 'react-dom';
+import {AppContainer} from 'react-hot-loader';
 
-import { AppContainer } from "react-hot-loader";
+import Root from './root';
 
-render(<AppContainer><App /></AppContainer>, document.getElementById('a'));
 
-if(module.hot) {
-	module.hot.accept('./components/App', () => {
-		console.log("index.js HMR");
-		const NewApp = require('./components/App').default;
-		render(<AppContainer><NewApp /></AppContainer>, document.getElementById('a'));
-	});
+ReactDOM.render(<AppContainer><Root/></AppContainer>, document.getElementById('root'));
+if (module.hot) {
+    module.hot.accept('./root', () => {
+        alert('rerender')
+        ReactDOM.render(
+            <AppContainer>
+                <Root />
+            </AppContainer>
+            , document.getElementById('root'));
+    });
+
 }

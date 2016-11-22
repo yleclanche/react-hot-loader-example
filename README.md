@@ -1,5 +1,5 @@
-An example of using react-hot-loader (v 3.x). Run the procject with
+An example of using react-hot-loader (v 3.x). Run the project with
 
 ```
-webpack-dev-server --hot --inline
+npm run dev
 ```
